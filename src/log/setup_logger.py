@@ -15,14 +15,9 @@ from logging.handlers import TimedRotatingFileHandler
 def setup_logger():
     """
     Set up a logger for the application."""
-    
-    user = os.getlogin()
 
-    user = os.environ.get('USER') 
-
-    user = os.path.expanduser('~').split('/')[-1]
     formatter=logging.Formatter(
-    f'[{user}] | '
+    f'[LOCAL HOST] | '
     "%(asctime)s | "
     "%(filename)s | "
     "%(levelname)s | "
