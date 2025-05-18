@@ -21,12 +21,12 @@ def post_img_api_aiaxur(raw_json: dict):
     logger.info("Using API key: %s", api_key)
 
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
-    submit_response = requests.post(url=url, headers=headers, json=raw_json)
+    submit_response = requests.post(url=url, headers=headers, json=raw_json,timeout=10)
 
     if submit_response.status_code == 200:
         logger.info("Pass interview")
         logger.debug("Response data: %s", submit_response.json())
         return True
-    else:
-        logger.error("Try again")
-        return False
+
+    logger.error("Try again")
+    return False

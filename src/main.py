@@ -7,9 +7,9 @@ from utils.controler_functions import (
     process_image_url,
     get_html_content,
 )
-from .log import logger
 from scripts.post_img import post_img
 from scripts.post_img_aiaxur import post_img_api_aiaxur as post_img_aiaxur
+from .log import logger
 
 def main():
     """Main function to execute the image downloading process."""
