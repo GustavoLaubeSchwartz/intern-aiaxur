@@ -1,4 +1,5 @@
-"""This script downloads an image from a provided URL, whether it's a normal URL or a base64 encoded image."""
+"""This script downloads an image from a 
+provided URL, whether it's a normal URL or a base64 encoded image."""
 
 import os
 import re
@@ -6,7 +7,8 @@ import base64
 import urllib.parse
 import requests
 from bs4 import BeautifulSoup
-from log import logger
+from .log import logger
+
 
 def get_html_content(url):
     """
@@ -18,15 +20,15 @@ def get_html_content(url):
     Returns:
         str: HTML content if successful, None otherwise.
     """
-    logger.info(f"Initiating HTML content fetch from: {url}")
+    logger.info("Initiating HTML content fetch from: %s", url)
     try:
         response = requests.get(url, timeout=10)
-        logger.debug(f"Response status code: {response.status_code}")
+        logger.debug("Response status code: %s", response.status_code)
         response.raise_for_status()
         logger.info("HTML content successfully fetched")
         return response.text
     except requests.exceptions.RequestException as error:
-        logger.error(f"Failed to fetch HTML content: {error}", exc_info=True)
+        logger.error("Failed to fetch HTML content: %s", error, exc_info=True)
         return None
 
 
@@ -53,14 +55,14 @@ def save_base64_image(base64_str, save_path):
         filename = "image_from_base64.jpg"
         full_path = os.path.join(save_path, filename)
 
-        logger.info(f"Attempting to save image to: {full_path}")
+        logger.info("Attempting to save image to: %s", full_path)
         with open(full_path, "wb") as img_file:
             img_file.write(img_data)
 
-        logger.info(f"Base64 image successfully saved as: {filename}")
+        logger.info("Base64 image successfully saved as: %s", filename)
         return filename
     except (base64.binascii.Error, OSError) as error:
-        logger.error(f"Failed to save base64 image: {error}", exc_info=True)
+        logger.error("Failed to save base64 image: %s ", error, exc_info=True)
         return None
 
 
@@ -76,28 +78,31 @@ def save_image_from_url(img_url, base_url, save_path):
     Returns:
         str: Filename if successful, None otherwise.
     """
-    logger.info(f"Processing image URL: {img_url}")
+    logger.info("Processing image URL: %s", img_url)
     try:
         absolute_url = urllib.parse.urljoin(base_url, img_url)
         if not absolute_url.startswith(("http://", "https://")):
-            logger.error(f"Invalid URL scheme: {absolute_url}")
+            logger.error("Invalid URL scheme: %s", absolute_url)
             return None
 
-        logger.debug(f"Resolved absolute URL: {absolute_url}")
+        logger.debug("Resolved absolute URL: %s", absolute_url)
         response = requests.get(absolute_url, timeout=10)
         response.raise_for_status()
 
-        filename = os.path.basename(urllib.parse.urlparse(absolute_url).path) or "downloaded_image.jpg"
+        filename = (
+            os.path.basename(urllib.parse.urlparse(absolute_url).path)
+            or "downloaded_image.jpg"
+        )
         full_path = os.path.join(save_path, filename)
 
-        logger.info(f"Saving image to: {full_path}")
+        logger.info("Saving image to: %s", full_path)
         with open(full_path, "wb") as img_file:
             img_file.write(response.content)
 
-        logger.info(f"Image successfully saved as: {filename}")
+        logger.info("Image successfully saved as: %s", filename)
         return filename
     except requests.exceptions.RequestException as error:
-        logger.error(f"Failed to download image: {error}", exc_info=True)
+        logger.error("Failed to download image: %s", error, exc_info=True)
         return None
 
 
@@ -118,12 +123,16 @@ def process_image_url(img_tag, base_url, save_path):
         return False
 
     src = img_tag["src"]
-    logger.debug(f"Processing image source: {'[base64 data]' if src.startswith('data:image') else src}")
+    label_logger = "base64" if src.startswith("data:image") else src
+    logger.debug(
+        "Processing image source: %s",
+        label_logger,
+    )
 
     if src.startswith("data:image"):
         logger.info("Processing base64 encoded image")
         return save_base64_image(src, save_path) is not None
-    
+
     logger.info("Processing standard image URL")
     return save_image_from_url(src, base_url, save_path) is not None
 
@@ -131,11 +140,13 @@ def process_image_url(img_tag, base_url, save_path):
 def main():
     """Main function to execute the image downloading process."""
     logger.info("Starting image download process")
-    url = "https://intern.aiaxuropenings.com/scrape/7dbfdfa6-b88b-4339-9d91-dc6dd9ed2448"
+    url = (
+        "https://intern.aiaxuropenings.com/scrape/7dbfdfa6-b88b-4339-9d91-dc6dd9ed2448"
+    )
     save_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets"))
-    
-    logger.info(f"Target URL: {url}")
-    logger.debug(f"Save path: {save_path}")
+
+    logger.info("Target URL: %s", url)
+    logger.debug("Save path: %s", save_path)
 
     logger.info("Fetching HTML content")
     html_content = get_html_content(url)
@@ -146,14 +157,14 @@ def main():
     logger.info("Parsing HTML content")
     soup = BeautifulSoup(html_content, "html.parser")
     img_tag = soup.find("img")
-    
+
     if not img_tag:
         logger.warning("No image tag found in HTML content")
         return
 
     logger.info("Processing image tag")
     result = process_image_url(img_tag, url, save_path)
-    
+
     if result:
         logger.info("Image download process completed successfully")
     else:
