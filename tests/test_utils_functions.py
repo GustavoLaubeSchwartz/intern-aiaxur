@@ -8,11 +8,12 @@ It includes tests for:
 - Processing image URLs (base64 and standard)
 - Handling invalid image URLs and tags
 """
+
 import os
 from unittest.mock import patch, Mock
-import requests
 from urllib.parse import urljoin
 import pytest
+import requests
 from utils.controler_functions import (
     get_html_content,
     save_base64_image,
@@ -20,7 +21,6 @@ from utils.controler_functions import (
     process_image_url,
 )
 from src.log import logger
-
 
 
 # Test data
@@ -140,15 +140,33 @@ def test_process_image_url_base64():
             str: The base64 image string if key is 'src'.
             None: If key is not 'src'.
         """
+
         def __init__(self, src_value):
+            """Initialize the mock tag with a src value.
+            Args:
+                src_value (str): The base64 image string.
+            Returns:
+                None
+            """
             self.src_value = src_value
 
         def __getitem__(self, key):
+            """Simulate getting an attribute by key.
+            Args:
+                key (str): The attribute key to get.
+            Returns:
+                    str: The base64 image string if key is 'src'."""
             if key == "src":
                 return self.src_value
             raise KeyError(key)
 
         def get(self, key, default=None):
+            """Simulate getting an attribute with a default value.
+            Args:
+                key (str): The attribute key to get.
+                default: The default value to return if the key is not found.
+            Returns:
+                    str: The base64 image string if key is 'src'."""
             if key == "src":
                 return self.src_value
             return default
@@ -179,15 +197,33 @@ def test_process_image_url_standard():
                 str: The base64 image string if key is 'src'.
                 None: If key is not 'src'.
             """
+
             def __init__(self, src_value):
+                """Initialize the mock tag with a src value.
+                Args:
+                    src_value (str): The base64 image string.
+                Returns:
+                    None
+                """
                 self.src_value = src_value
 
             def __getitem__(self, key):
+                """Simulate getting an attribute by key.
+                Args:
+                    key (str): The attribute key to get.
+                Returns:
+                        str: The base64 image string if key is 'src'."""
                 if key == "src":
                     return self.src_value
                 raise KeyError(key)
 
             def get(self, key, default=None):
+                """Simulate getting an attribute with a default value.
+                Args:
+                    key (str): The attribute key to get.
+                    default: The default value to return if the key is not found.
+                Returns:
+                        str: The base64 image string if key is 'src'."""
                 if key == "src":
                     return self.src_value
                 return default
