@@ -11,9 +11,8 @@ It includes tests for:
 
 import os
 from unittest.mock import patch, Mock
-from urllib.parse import urljoin
-import pytest
 import requests
+import pytest
 from utils.controler_functions import (
     get_html_content,
     save_base64_image,
