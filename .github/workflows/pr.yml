@@ -1,6 +1,8 @@
 name: pylint
- 
-on: [pull_request]
+
+# This workflow will run pylint on every pull request and merge to the main branch
+on: [pull_request, merge]
+
 
 jobs:
   build:
@@ -24,3 +26,7 @@ jobs:
       run: |
         pylint $(git ls-files '*.py')
 
+    - name: Pytest
+      run: |
+        pip install pytest
+        python -m pytest tests/
