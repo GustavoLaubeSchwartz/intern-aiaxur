@@ -3,8 +3,8 @@
     The file handler uses timed rotation to create a new log file at midnight.
     The log messages include timestamps, the filename, the log level, the function name,
     the line number, and the message itself.
-    The logger is set to the INFO level, meaning it 
-    will capture all messages at this level and above.
+    The logger is set to the INFO level, meaning it will capture 
+    all messages at this level and above.
     The log file is saved in the "log" directory with the name "log.log".
     The console output is formatted to include the local host name. """
 
