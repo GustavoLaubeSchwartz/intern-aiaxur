@@ -45,11 +45,6 @@ Antes de começar, certifique-se de que você possui os seguintes requisitos ins
    pip install -r requirements.txt
    ```
 
-   Caso o arquivo `requirements.txt` não esteja presente, instale as bibliotecas manualmente:
-
-   ```bash
-   pip install requests beautifulsoup4
-   ```
 
 ## Como Usar o Repositório
 
@@ -65,7 +60,7 @@ O repositório contém um script principal que implementa o fluxo do desafio té
    - Execute o script principal com o comando:
 
      ```bash
-     python main.py
+     python app.py
      ```
 
    - O script executará as seguintes etapas, conforme descrito no fluxograma abaixo:
