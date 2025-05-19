@@ -148,10 +148,6 @@ intern-aiaxur/
 
 Este repositório é específico para o processo seletivo da AIAxur e, portanto, não aceita contribuições externas. Caso tenha dúvidas ou sugestões relacionadas ao desafio, entre em contato com a equipe da AIAxur por meio dos canais oficiais fornecidos no processo seletivo.
 
-## Contato
-
-Para dúvidas ou suporte técnico relacionado ao processo seletivo, entre em contato com a equipe da AIAxur pelo e-mail fornecido na descrição do processo seletivo.
-
 ---
 
 *Última atualização: 18 de maio de 2025*
